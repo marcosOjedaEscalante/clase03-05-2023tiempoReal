@@ -98,9 +98,11 @@ function renderTarjetas() {
     var contenidoPrincipal = document.querySelector('#contenidoPrincipal');
     contenidoPrincipal.setAttribute('class', 'container');
     var contenedorPrincipal = document.createElement('div');
+    contenedorPrincipal.setAttribute('id', 'contenedorPrincipal');
     contenedorPrincipal.setAttribute('class', 'row');
 
     datos.forEach(function (producto) {
+        var contador = 0;
         var contenedorTarjeta = document.createElement('div');
         var imagen = document.createElement('img');
         var contenedorCuerpoTarjeta = document.createElement('div');
@@ -132,10 +134,15 @@ function renderTarjetas() {
         btnAgregar.innerHTML = 'Agregar al carrito';
         btnAgregar.addEventListener('click', function () {
             if (producto.stock > 0) {
-                arregloCarritoCompra.push(producto);
+                contador = contador + 1;
+                producto.cantidadUnidadesSeleccionadas = contador;
+                var estado = arregloCarritoCompra.indexOf(producto);
+                if(estado == -1){
+                    arregloCarritoCompra.push(producto);
+                }
                 producto.stock = producto.stock - 1;
                 listaItemTres.innerHTML = producto.stock;
-            }else{
+            } else {
                 alert(`No queda stock del producto ${producto.nombre}`);
             }
         });
@@ -147,6 +154,28 @@ function renderTarjetas() {
     contenidoPrincipal.append(contenedorPrincipal);
 }
 
-
+var carritoCompra = document.querySelector('#carritoCompra');
+carritoCompra.addEventListener('click', function () {
+    var contenedorPrincipal = document.querySelector('#contenedorPrincipal');
+    contenedorPrincipal.setAttribute('class', 'd-none');
+    arregloCarritoCompra.forEach(function (producto) {
+        var contenedorPrincipalDos = document.querySelector('#contenedorPrincipalDos');
+        var cuerpoTabla = document.querySelector('#cuerpoTabla');
+        var fila = document.createElement('tr');
+        var columnaUno = document.createElement('td');
+        var columnaDos = document.createElement('td');
+        var columnaTres = document.createElement('td');
+        var columnaCuatro = document.createElement('td');
+        var columnaCinco = document.createElement('td');
+        columnaUno.innerHTML = producto.nombre;
+        columnaDos.innerHTML = producto.categoria;
+        columnaTres.innerHTML = producto.genero;
+        columnaCuatro.innerHTML = producto.precio;
+        columnaCinco.innerHTML = producto.cantidadUnidadesSeleccionadas;
+        fila.append(columnaUno, columnaDos, columnaTres, columnaCuatro, columnaCinco);
+        cuerpoTabla.append(fila);
+        contenedorPrincipalDos.setAttribute('class', 'd-block');
+    });
+});
 
 renderTarjetas();
