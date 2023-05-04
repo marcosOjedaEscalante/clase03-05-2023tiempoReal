@@ -90,3 +90,51 @@ var datos = [
         img: "./img/ConjuntoCiclismo.jpeg"
     }
 ]
+
+function renderTarjetas() {
+
+    var contenidoPrincipal = document.querySelector('#contenidoPrincipal');
+    contenidoPrincipal .setAttribute('class', 'container');
+    var contenedorPrincipal = document.createElement('div');
+    contenedorPrincipal.setAttribute('class', 'row');
+
+    datos.forEach(function (producto) {
+        var contenedorTarjeta = document.createElement('div');
+        var imagen = document.createElement('img');
+        var contenedorCuerpoTarjeta = document.createElement('div');
+        var tituloTarjeta = document.createElement('h5');
+        var parrafoTarjeta = document.createElement('p');
+        var listaTarjeta = document.createElement('ul');
+        var listaItemUno = document.createElement('li');
+        var listaItemDos = document.createElement('li');
+        var listaItemTres = document.createElement('li');
+        var btnAgregar = document.createElement('button');
+        contenedorTarjeta.setAttribute('class', 'card col-3 m-3');
+        contenedorTarjeta.setAttribute('style', 'width: 18rem;');
+        imagen.setAttribute('class', 'card-img-top');
+        imagen.setAttribute('alt', producto.nombre);
+        imagen.setAttribute('src', `assets/${producto.img}`);
+        contenedorCuerpoTarjeta.setAttribute('class', 'card-body');
+        tituloTarjeta.setAttribute('class', 'card-title');
+        tituloTarjeta.innerHTML = producto.nombre;
+        parrafoTarjeta.setAttribute('class', 'card-text');
+        parrafoTarjeta.innerHTML = producto.categoria;
+        listaTarjeta.setAttribute('class', 'list-group list-group-flush');
+        listaItemUno.setAttribute('class', 'list-group-item');
+        listaItemUno.innerHTML = producto.genero;
+        listaItemDos.setAttribute('class', 'list-group-item');
+        listaItemDos.innerHTML = producto.precio;
+        listaItemTres.setAttribute('class', 'list-group-item');
+        listaItemTres.innerHTML = producto.stock;
+        btnAgregar.setAttribute('class', 'btn btn-primary mb-3');
+        btnAgregar.innerHTML = 'Agregar al carrito';
+        contenedorCuerpoTarjeta.append(tituloTarjeta, parrafoTarjeta);
+        listaTarjeta.append(listaItemUno, listaItemDos, listaItemTres);
+        contenedorTarjeta.append(imagen, contenedorCuerpoTarjeta, listaTarjeta, btnAgregar);
+        contenedorPrincipal.append(contenedorTarjeta);
+
+    });
+    contenidoPrincipal.append(contenedorPrincipal);
+}
+
+renderTarjetas();
